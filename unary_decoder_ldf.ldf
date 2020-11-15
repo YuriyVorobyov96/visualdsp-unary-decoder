@@ -1,0 +1,26 @@
+ARCHITECTURE(ADSP-21060) 
+$OBJECTS = $COMMAND_LINE_OBJECTS; 
+MEMORY {     
+	pm_irq_svc  { TYPE(PM RAM) START(0x20004) END(0x20007) WIDTH(48) }     
+	spt0_svc    { TYPE(PM RAM) START(0x20030) END(0x20033) WIDTH(48) }     
+	dm_data     { TYPE(DM RAM) START(0x30000) END(0x301ff) WIDTH(32) }     
+	pm_code     { TYPE(PM RAM) START(0x20100) END(0x201ff) WIDTH(48) } 
+} 
+PROCESSOR P0 
+{ 
+    OUTPUT( $COMMAND_LINE_OUTPUT_FILE ) 
+    SECTIONS { 
+        pm_irq_svc{ 
+        	INPUT_SECTIONS($COMMAND_LINE_OBJECTS(pm_irq_svc))
+        }>pm_irq_svc         
+        spt0_svc{ 
+        	INPUT_SECTIONS($COMMAND_LINE_OBJECTS(spt0_svc))  
+        }>spt0_svc         
+        dm_data{ 
+        	INPUT_SECTIONS($COMMAND_LINE_OBJECTS(dm_data))   
+        }>dm_data         
+        pm_code{ 
+        	INPUT_SECTIONS($COMMAND_LINE_OBJECTS(pm_code))   
+        }>pm_code 
+    } 
+} 
